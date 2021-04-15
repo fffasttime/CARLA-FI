@@ -1,3 +1,6 @@
+import matplotlib
+matplotlib.use('Agg')
+
 #  Generate the plots on the images folder that are going to be linked
 
 import argparse

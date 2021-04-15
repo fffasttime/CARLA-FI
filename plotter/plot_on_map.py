@@ -121,10 +121,9 @@ def get_causes_of_end(summary_file):
 
     """
     f = open(summary_file, "rU")
-    header_summary = f.readline()
+    header_summary = f.readline().strip()
 
     header_summary = header_summary.split(',')
-    header_summary[-1] = header_summary[-1][:-2]
     f.close()
 
     summary_matrix = np.loadtxt(open(summary_file, "rb"), delimiter=",", skiprows=1)

@@ -128,6 +128,8 @@ def folder_execute(params=None):
 
             # Get the train status, that will affect in scheduling a validation or drive process
             train_status = monitorer.get_status(folder, process_specs['experiment'], 'train')[0]
+            if not params['is_training']:
+                train_status='Finished'
             # ADD TRAIN TO EXECUTE
             if process_specs['type'] == 'train' and resources_on_most_free_gpu >= \
                     allocation_parameters['train_cost']:
@@ -180,7 +182,7 @@ def folder_execute(params=None):
             allocated_gpus,
             executing_processes,
             allocation_parameters)
-
+        
         time.sleep(10)
 
     print("ALL EXPERIMENTS EXECUTED")

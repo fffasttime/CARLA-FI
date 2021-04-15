@@ -102,3 +102,9 @@ ENV/
 
 # pycharm
 .idea
+
+# data
+_logs/
+_output_logs/
+_preloads/
+
