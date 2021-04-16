@@ -64,7 +64,7 @@ def split_episodes(meas_file):
     header_details = f.readline()
 
     header_details = header_details.split(',')
-    header_details[-1] = header_details[-1][:-2]
+    header_details[-1] = header_details[-1].strip()
     f.close()
 
     print (header_details)

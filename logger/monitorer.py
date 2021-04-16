@@ -81,7 +81,7 @@ def get_latest_checkpoint_validation():
 
     sort_nicely(csv_files)
 
-    csv_file_numbers = set([float(re.findall('\d+', file)[0]) for file in csv_files])
+    csv_file_numbers = set([float(re.findall(r'\d+', file)[0]) for file in csv_files])
 
     not_evaluated_logs = list(set(g_conf.TEST_SCHEDULE).difference(csv_file_numbers))
 
@@ -113,7 +113,7 @@ def get_latest_checkpoint_drive(control_filename):
     f = open(os.path.join(csv_file_path, control_filename), "r")
     header = f.readline()
     header = header.split(',')
-    header[-1] = header[-1][:-2]
+    header[-1] = header[-1].strip()
     f.close()
 
     data_matrix = np.loadtxt(open(os.path.join(csv_file_path, control_filename), "rb"),
