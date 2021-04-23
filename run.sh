@@ -1,1 +1,1 @@
-python3 coiltraine.py -nw 2 --folder sample --gpus 1 -de TestT1_Town01 -vd CoILVal1 --docker carlasim/carla:0.8.4
+python3 coiltraine.py -nw 6 --no-screen --gpus 0 1 --folder nocrash -de NocrashNormalTraining_Town01

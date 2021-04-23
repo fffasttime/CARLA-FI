@@ -4,6 +4,7 @@
 """
 
 from .models import CoILICRA
+from .models import CoILICRA_EI
 
 
 def CoILModel(architecture_name, architecture_configuration):
@@ -15,8 +16,9 @@ def CoILModel(architecture_name, architecture_configuration):
     # TODO: this could be extended to some more arbitrary definition
 
     if architecture_name == 'coil-icra':
-
         return CoILICRA(architecture_configuration)
+    else if architecture_name == 'coil-icra-ei'
+        return CoILICRA_EI(architecture_configuration)
 
     else:
 

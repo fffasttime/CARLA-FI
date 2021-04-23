@@ -30,7 +30,7 @@ TEST_SCHEDULE: [2000, 100000]  # The frequency the model is actually tested.
 
 #### Model Related Parameters ####
 # Network Parameters #
-MODEL_TYPE: 'coil-icra' # The type of model. Defines which modules the model has.
+MODEL_TYPE: 'coil-icra-ei' # The type of model. Defines which modules the model has.
 MODEL_CONFIGURATION:  # Based on the MODEL_TYPE, we specify the structure
   perception:  # The module that process the image input, it ouput the number of classes
     res:
