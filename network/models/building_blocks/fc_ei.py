@@ -44,10 +44,9 @@ class FC_EI(nn.Module):
                 self.layers.append(nn.Sequential(*[fc, dropout, relu]))
 
 
-        # self.layers = nn.Sequential(*self.layers)
+        self.layers = nn.Sequential(*self.layers)
 
     def forward(self, x):
-        for layer in self.layers:
-            x = layer(x)
-            x = insertError_fc(x, 0)
+        x = self.layers(x)
+        x = insertError_fc(x)
         return x
