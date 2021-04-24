@@ -4,7 +4,7 @@ import torch.nn as nn
 import torch.nn.init as init
 import torch
 import torch.nn.functional as F
-import errorInsert
+import errorinsert
 
 class FC_EI(nn.Module):
 
@@ -12,7 +12,7 @@ class FC_EI(nn.Module):
                  ):
         # TODO: Make an auto naming function for this.
 
-        super(FC, self).__init__()
+        super(FC_EI, self).__init__()
 
 
         """" ---------------------- FC ----------------------- """
@@ -49,5 +49,5 @@ class FC_EI(nn.Module):
     def forward(self, x):
         for layer in self.layers:
             x = layer(x)
-            x = errorInsert.insertError_fc(x, 0)
+            x = insertError_fc(x, 0)
         return x

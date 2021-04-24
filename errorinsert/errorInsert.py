@@ -1,9 +1,8 @@
 import numpy as np
 import torch
-import errorInsert
 from ctypes import *
 
-lib=CDLL('./err.so')
+lib=CDLL('errorinsert/err.so')
 insert_float=lib.insert_float
 insert_float.restype=c_float
 

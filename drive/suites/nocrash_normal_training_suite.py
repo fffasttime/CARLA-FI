@@ -15,10 +15,10 @@ from carla08.driving_benchmark.experiment_suites.experiment_suite import Experim
 
 
 
-class NocrashTraining(ExperimentSuite):
+class NocrashNormalTraining(ExperimentSuite):
 
     def __init__(self):
-        super(NocrashTraining, self).__init__('Town01')
+        super(NocrashNormalTraining, self).__init__('Town01')
 
     @property
     def train_weathers(self):

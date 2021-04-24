@@ -16,7 +16,7 @@ class CoILICRA_EI(nn.Module):
     def __init__(self, params):
         # TODO: Improve the model autonaming function
 
-        super(CoILICRA, self).__init__()
+        super(CoILICRA_EI, self).__init__()
         self.params = params
 
         number_first_layer_channels = 0
