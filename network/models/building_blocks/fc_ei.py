@@ -48,5 +48,5 @@ class FC_EI(nn.Module):
 
     def forward(self, x):
         x = self.layers(x)
-        x = insertError_fc(x)
+        x = errorinsert.insertError_fc(x)
         return x

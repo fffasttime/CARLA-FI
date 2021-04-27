@@ -154,7 +154,7 @@ class ResNet_EI(nn.Module):
         x = self.avgpool(x4)
         x = x.view(x.size(0), -1)
         x = self.fc(x)
-        x = insertError_fc(x)
+        x = errorinsert.insertError_fc(x)
 
         return x, [x0, x1, x2, x3, x4]  # output, intermediate
 
@@ -185,7 +185,7 @@ def resnet18(pretrained=False, **kwargs):
     Args:
         pretrained (bool): If True, returns a model pre-trained on ImageNet
     """
-    model = ResNet_EI(BasicBlock, [2, 2, 2, 2], **kwargs)
+    model = ResNet_EI(BasicBlock_EI, [2, 2, 2, 2], **kwargs)
     if pretrained:
 
         model_dict = model_zoo.load_url(model_urls['resnet18'])
@@ -204,7 +204,7 @@ def resnet34(pretrained=False, **kwargs):
     Args:
         pretrained (bool): If True, returns a model pre-trained on ImageNet
     """
-    model = ResNet_EI(BasicBlock, [3, 4, 6, 3], **kwargs)
+    model = ResNet_EI(BasicBlock_EI, [3, 4, 6, 3], **kwargs)
     if pretrained:
 
         model_dict = model_zoo.load_url(model_urls['resnet34'])
