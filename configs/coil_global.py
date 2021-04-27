@@ -93,6 +93,11 @@ _g_conf.USE_ORACLE = False
 _g_conf.USE_FULL_ORACLE = False
 _g_conf.AVOID_STOPPING = False
 
+"""#### Error Insertion ####"""
+_g_conf.EI_OPEN = False
+_g_conf.EI_CONV_OUT = 0.0
+_g_conf.EI_FC_OUT = 0.0
+
 
 def merge_with_yaml(yaml_filename):
     """Load a yaml config file and merge it into the global config object"""

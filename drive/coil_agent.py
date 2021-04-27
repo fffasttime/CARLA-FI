@@ -48,6 +48,15 @@ class CoILAgent(object):
         self._model.cuda()
         self._model.eval()
 
+        if g_conf.EI_OPEN:
+            self._model_goldenrun = self._model # swap
+            self._model = CoILModel(g_conf.MODEL_TYPE + '-ei', g_conf.MODEL_CONFIGURATION)
+            self.first_iter = True
+            # Load the model and prepare set it for evaluation
+            self._model.load_state_dict(checkpoint['state_dict'])
+            self._model.cuda()
+            self._model.eval()
+
         self.latest_image = None
         self.latest_image_tensor = None
 
@@ -96,7 +105,23 @@ class CoILAgent(object):
                                     self.checkpoint['iteration'])
         self.first_iter = False
 
-        return control
+        if g_conf.EI_OPEN:
+            model_outputs_goldenrun = self._model_goldenrun.forward_branch(self._process_sensors(sensor_data), norm_speed,
+                                                  directions_tensor)
+            if self._carla_version == '0.9':
+                import carla
+                control_goldenrun = carla.VehicleControl()
+            else:
+                control_goldenrun = VehicleControl()
+            
+            steer, throttle, brake = self._process_model_outputs(model_outputs_goldenrun[0])
+            control_goldenrun.steer = float(steer)
+            control_goldenrun.throttle = float(throttle)
+            control_goldenrun.brake = float(brake)
+
+            return control, control_goldenrun
+
+        return control, None
 
     def get_attentions(self, layers=None):
         """

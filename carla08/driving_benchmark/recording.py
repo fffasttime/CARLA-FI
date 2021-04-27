@@ -42,7 +42,10 @@ class Recording(object):
                                    'pos_y': -1,
                                    'steer': -1,
                                    'throttle': -1,
-                                   'brake': -1
+                                   'brake': -1,
+                                   'steer_g': -1,
+                                   'throttle_g': -1,
+                                   'brake_g': -1
                                    }
 
         # Just in the case is the first time and there is no benchmark results folder
@@ -158,11 +161,15 @@ class Recording(object):
                 self._dict_measurements['pos_y'] = reward_vec[
                     i].transform.location.y
                 self._dict_measurements['steer'] = control_vec[
-                    i].steer
+                    i][0].steer
                 self._dict_measurements['throttle'] = control_vec[
-                    i].throttle
+                    i][0].throttle
                 self._dict_measurements['brake'] = control_vec[
-                    i].brake
+                    i][0].brake
+                if control_vec[i][1] is not None:
+                    self._dict_measurements['steer_g']=control_vec[i][1].steer
+                    self._dict_measurements['throttle_g']=control_vec[i][1].throttle
+                    self._dict_measurements['brake_g']=control_vec[i][1].brake
 
                 mw.writerow(self._dict_measurements)
 

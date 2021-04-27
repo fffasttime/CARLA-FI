@@ -10,6 +10,7 @@ import logging
 import math
 import time
 import numpy as np
+from configs import g_conf
 
 from ..client import VehicleControl
 from ..client import make_carla_client
@@ -412,7 +413,7 @@ class DrivingBenchmark(object):
             # The directions to reach the goal are calculated.
             directions = self._get_directions(measurements.player_measurements.transform, target)
             # Agent process the data.
-            control = agent.run_step(measurements, sensor_data, directions, target)
+            control, control_goldenrun = agent.run_step(measurements, sensor_data, directions, target)
             # Send the control commands to the vehicle
             client.send_control(control)
 

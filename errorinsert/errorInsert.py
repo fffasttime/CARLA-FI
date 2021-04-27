@@ -1,29 +1,30 @@
 import numpy as np
 import torch
 from ctypes import *
+from configs import g_conf
 
 lib=CDLL('errorinsert/err.so')
 insert_float=lib.insert_float
 insert_float.restype=c_float
 
-def insertError(input, probs=1e-3, data_width=32):
+def insertError(input, data_width=32):
     b, c, rows, cols = input.size()
     input_copy = input.clone()
     for x in range(b):
         for y in range(c):
             for i in range(rows):
-                rawErrorList = randomGenerater(cols, probs)
+                rawErrorList = randomGenerater(cols, g_conf.EI_CONV_OUT)
                 if rawErrorList:
                     for j, errorBit in rawErrorList:
                         input_copy[x][y][i][j] = insert_fault(input_copy[x][y][i][j].item(), errorBit, data_width)
 
     return input_copy
 
-def insertError_fc(input, probs=1e-3, data_width=32):
+def insertError_fc(input, data_width=32):
     b, cols = input.size()
     input_copy = input.clone()
     for i in range(b):
-        rawErrorList = randomGenerater(cols, probs)
+        rawErrorList = randomGenerater(cols, g_conf.EI_FC_OUT)
         if rawErrorList:
             for j, errorBit in rawErrorList:
                 input_copy[i][j] = insert_fault(input_copy[i][j].item(), errorBit, data_width)
