@@ -8,6 +8,8 @@ insert_float=lib.insert_float
 insert_float.restype=c_float
 
 def insertError(input, data_width=32):
+    if g_conf.EI_CONV_OUT==0:
+        return input
     b, c, rows, cols = input.size()
     input_copy = input.clone()
     for x in range(b):

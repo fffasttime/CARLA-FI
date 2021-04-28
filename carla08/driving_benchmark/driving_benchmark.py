@@ -472,7 +472,7 @@ class DrivingBenchmark(object):
             # Increment the vectors and append the measurements and controls.
             frame += 1
             measurement_vec.append(measurements.player_measurements)
-            control_vec.append(control)
+            control_vec.append((control, control_goldenrun))
 
         if success:
             return 1, measurement_vec, control_vec, float(

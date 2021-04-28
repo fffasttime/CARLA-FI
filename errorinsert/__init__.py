@@ -1,1 +1,1 @@
-from .errorInsert import insertError_fc, insertError_fc
+from .errorInsert import insertError_fc, insertError
