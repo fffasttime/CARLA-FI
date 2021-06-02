@@ -23,6 +23,8 @@ def insertError(input, data_width=32):
     return input_copy
 
 def insertError_fc(input, data_width=32):
+    if g_conf.EI_FC_OUT==0:
+        return input
     b, cols = input.size()
     input_copy = input.clone()
     for i in range(b):

@@ -26,7 +26,9 @@ class Recording(object):
                               'end_vehicle_collision': -1,
                               'end_other_collision': -1,
                               'number_red_lights': -1,
-                              'number_green_lights': -1
+                              'number_green_lights': -1,
+                              'start_time': -1,
+                              'end_time': -1
                               }
         self._dict_measurements = {'exp_id': -1,
                                    'rep': -1,
@@ -103,7 +105,7 @@ class Recording(object):
                               path_distance, remaining_distance,
                               final_time, time_out, result,
                               end_pedestrian, end_vehicle, end_other,
-                              number_red_lights, number_green_lights):
+                              number_red_lights, number_green_lights, start_time, end_time):
         """
         Method to record the summary of an episode(pose) execution
         """
@@ -123,6 +125,8 @@ class Recording(object):
         self._dict_summary['end_other_collision'] = end_other
         self._dict_summary['number_red_lights'] = number_red_lights
         self._dict_summary['number_green_lights'] = number_green_lights
+        self._dict_summary['start_time'] = start_time
+        self._dict_summary['end_time'] = end_time
 
 
 

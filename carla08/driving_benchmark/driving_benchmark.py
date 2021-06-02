@@ -123,7 +123,6 @@ class DrivingBenchmark(object):
 
             for pose in experiment.poses[start_pose:]:
                 for rep in range(start_rep, experiment.repetitions):
-
                     start_index = pose[0]
                     end_index = pose[1]
                     print ("start index ", start_index, "end index", end_index)
@@ -147,6 +146,7 @@ class DrivingBenchmark(object):
 
                     logging.info('Timeout for Episode: %f', time_out)
                     # running the agent
+                    start_time=time.time()
                     (result, reward_vec, control_vec, final_time, remaining_distance, col_ped,
                      col_veh, col_oth, number_of_red_lights, number_of_green_lights) = \
                         self._run_navigation_episode(
@@ -156,12 +156,12 @@ class DrivingBenchmark(object):
                             + '.' + str(end_index), experiment_suite.metrics_parameters,
                             experiment_suite.collision_as_failure,
                             experiment_suite.traffic_light_as_failure)
-
+                    end_time=time.time()
                     # Write the general status of the just ran episode
                     self._recording.write_summary_results(
                         experiment, pose, rep, initial_distance,
                         remaining_distance, final_time, time_out, result, col_ped, col_veh, col_oth,
-                        number_of_red_lights, number_of_green_lights)
+                        number_of_red_lights, number_of_green_lights,start_time,end_time)
 
                     # Write the details of this episode.
                     self._recording.write_measurements_results(experiment, rep, pose, reward_vec,
