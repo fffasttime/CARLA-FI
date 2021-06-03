@@ -80,6 +80,6 @@ AVOID_STOPPING: False
 
 
 ### USE_ERROR_INSERTION ###
-EI_OPEN: False
+EI_OPEN: True
 EI_CONV_OUT: 0.0 # conv output error insertion threshold 
 EI_FC_OUT: 0.0 # fc output error insertion threshold
