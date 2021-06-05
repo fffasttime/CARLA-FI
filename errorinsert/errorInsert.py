@@ -11,8 +11,6 @@ insert_float=lib.insert_float
 insert_float.restype=c_float
 
 def insertError(input):
-    if g_conf.EI_CONV_OUT==0:
-        return input
     b, c, rows, cols = input.size()
     input_copy = input.clone()
     
@@ -30,13 +28,11 @@ def insertError(input):
                             input_copy[x][y][i][j] = insert_fault(input_copy[x][y][i][j].item(), errorBit)
 
     if model_type == int:
-        input_copy = (input_copy+0.5)*max_value
+        input_copy = (input_copy+0.5)/128*max_value
 
     return input_copy
 
 def insertError_fc(input):
-    if g_conf.EI_FC_OUT==0:
-        return input
     b, cols = input.size()
     input_copy = input.clone()
 
@@ -52,7 +48,7 @@ def insertError_fc(input):
                     input_copy[i][j] = insert_fault(input_copy[i][j].item(), errorBit)
 
     if model_type == int:
-        input_copy = (input_copy+0.5)*max_value
+        input_copy = (input_copy+0.5)/128*max_value
 
     return input_copy
 
