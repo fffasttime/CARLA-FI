@@ -2,6 +2,8 @@ import numpy as np
 import torch
 from ctypes import *
 from configs import g_conf
+import torch.nn as nn
+import torch.nn.functional as F
 
 # float / int quantum
 model_type = int
@@ -51,6 +53,26 @@ def insertError_fc(input):
         input_copy = (input_copy+0.5)/128*max_value
 
     return input_copy
+
+class Conv2dEI(nn.Conv2d):
+    def __init__(self, in_channels, out_channels, kernel_size, stride=1,
+                 padding=0, dilation=1, groups=1, bias=True):
+        super(Conv2dEI, self).__init__(
+            in_channels=in_channels, out_channels=out_channels, kernel_size=kernel_size,
+            stride=stride, padding=padding, dilation=dilation, groups=groups, bias=bias)
+    def forward(self, x):
+        x_ei = insertError(x)
+        w_ei = insertError(self.weight)
+        return self._conv_forward(x_ei, w_ei)
+
+class LinearEI(nn.Linear):
+    def __init__(self, in_features, out_features, bias=True, **kwargs):
+        super(LinearEI, self).__init__(in_features=in_features, out_features=out_features, bias=bias)
+        
+    def forward(self, x):
+        x_ei = insertError_fc(x)
+        w_ei = insertError_fc(self.weight)
+        return F.linear(x_ei, w_ei, self.bias)
 
 def randomGenerater(size, probs):
     errorlist = []

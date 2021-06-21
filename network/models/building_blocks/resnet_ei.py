@@ -20,7 +20,7 @@ model_urls = {
 
 def conv3x3(in_planes, out_planes, stride=1):
     """3x3 convolution with padding"""
-    return nn.Conv2d(in_planes, out_planes, kernel_size=3, stride=stride,
+    return errorinsert.Conv2dEI(in_planes, out_planes, kernel_size=3, stride=stride,
                      padding=1, bias=False)
 
 
@@ -41,14 +41,10 @@ class BasicBlock_EI(nn.Module):
         residual = x
 
         out = self.conv1(x)
-        out = errorinsert.insertError(out)
-
         out = self.bn1(out)
         out = self.relu(out)
 
         out = self.conv2(out)
-        out = errorinsert.insertError(out)
-
         out = self.bn2(out)
 
         if self.downsample is not None:
@@ -117,9 +113,9 @@ class ResNet_EI(nn.Module):
 
         # TODO: THis is a super hardcoding ..., in order to fit my image size on resnet
         if block.__name__ == 'Bottleneck':
-            self.fc = nn.Linear(6144, num_classes)
+            self.fc = errorinsert.LinearEI(6144, num_classes)
         else:
-            self.fc = nn.Linear(1536, num_classes)
+            self.fc = errorinsert.LinearEI(1536, num_classes)
 
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
@@ -158,7 +154,6 @@ class ResNet_EI(nn.Module):
         x = self.avgpool(x4)
         x = x.view(x.size(0), -1)
         x = self.fc(x)
-        x = errorinsert.insertError_fc(x)
 
         return x, [x0, x1, x2, x3, x4]  # output, intermediate
 

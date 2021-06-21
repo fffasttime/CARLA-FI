@@ -34,7 +34,7 @@ class FC_EI(nn.Module):
 
         for i in range(0, len(params['neurons']) -1):
 
-            fc = nn.Linear(params['neurons'][i], params['neurons'][i+1])
+            fc = errorinsert.LinearEI(params['neurons'][i], params['neurons'][i+1])
             dropout = nn.Dropout2d(p=params['dropouts'][i])
             relu = nn.ReLU(inplace=True)
 
@@ -48,5 +48,4 @@ class FC_EI(nn.Module):
 
     def forward(self, x):
         x = self.layers(x)
-        x = errorinsert.insertError_fc(x)
         return x
