@@ -63,7 +63,8 @@ class Conv2dEI(nn.Conv2d):
     def forward(self, x):
         x_ei = insertError(x)
         w_ei = insertError(self.weight)
-        return self._conv_forward(x_ei, w_ei)
+        return F.conv2d(x_ei, w_ei, None, self.stride,
+                        self.padding, self.dilation, self.groups)
 
 class LinearEI(nn.Linear):
     def __init__(self, in_features, out_features, bias=True, **kwargs):
