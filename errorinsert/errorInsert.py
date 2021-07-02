@@ -12,13 +12,18 @@ lib=CDLL('errorinsert/err.so')
 insert_float=lib.insert_float
 insert_float.restype=c_float
 
+def round_pass(x):
+    y = x.round()
+    y_grad = x
+    return y.detach() - y_grad.detach() + y_grad
+
 def insertError(input):
     b, c, rows, cols = input.size()
     input_copy = input.clone()
     
     if model_type == int:
         max_value=input.abs().max()
-        input_copy=torch.floor((input_copy/max_value)*128)
+        input_copy=round_pass((input_copy/max_value)*128)
 
     if g_conf.EI_CONV_OUT>0:
         for x in range(b):
@@ -30,7 +35,7 @@ def insertError(input):
                             input_copy[x][y][i][j] = insert_fault(input_copy[x][y][i][j].item(), errorBit)
 
     if model_type == int:
-        input_copy = (input_copy+0.5)/128*max_value
+        input_copy = input_copy/128*max_value
 
     return input_copy
 
@@ -40,7 +45,7 @@ def insertError_fc(input):
 
     if model_type == int:
         max_value=input.abs().max()
-        input_copy=torch.floor((input_copy/max_value)*128)
+        input_copy=round_pass((input_copy/max_value)*128)
 
     if g_conf.EI_FC_OUT>0:
         for i in range(b):
@@ -50,7 +55,7 @@ def insertError_fc(input):
                     input_copy[i][j] = insert_fault(input_copy[i][j].item(), errorBit)
 
     if model_type == int:
-        input_copy = (input_copy+0.5)/128*max_value
+        input_copy = input_copy/128*max_value
 
     return input_copy
 
@@ -61,7 +66,9 @@ class Conv2dEI(nn.Conv2d):
             in_channels=in_channels, out_channels=out_channels, kernel_size=kernel_size,
             stride=stride, padding=padding, dilation=dilation, groups=groups, bias=bias)
     def forward(self, x):
-        x_ei = insertError(x)
+        x_ei=x
+        #x_ei = insertError(x)
+        #w_ei = self.weight
         w_ei = insertError(self.weight)
         return F.conv2d(x_ei, w_ei, None, self.stride,
                         self.padding, self.dilation, self.groups)
@@ -71,7 +78,9 @@ class LinearEI(nn.Linear):
         super(LinearEI, self).__init__(in_features=in_features, out_features=out_features, bias=bias)
         
     def forward(self, x):
-        x_ei = insertError_fc(x)
+        x_ei = x
+        #x_ei = insertError_fc(x)
+        #w_ei = self.weight
         w_ei = insertError_fc(self.weight)
         return F.linear(x_ei, w_ei, self.bias)
 
@@ -101,3 +110,4 @@ def insert_fault(data, errorbit):
     assert errorbit<32
     value = float(insert_float(c_float(data), errorbit))
     return value
+

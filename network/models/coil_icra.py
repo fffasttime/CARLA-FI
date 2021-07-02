@@ -1,4 +1,4 @@
-from logger import coil_logger
+#from logger import coil_logger
 import torch.nn as nn
 import torch
 import importlib

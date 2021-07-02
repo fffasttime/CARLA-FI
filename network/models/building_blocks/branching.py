@@ -1,4 +1,4 @@
-from logger import coil_logger
+# from logger import coil_logger
 import torch.nn as nn
 
 
@@ -49,10 +49,7 @@ class Branching(nn.Module):
 
 
         """
-        coil_logger.add_message('Loading', {
-                    "Model": {"Loaded checkpoint: " + str(checkpoint) }
-
-                })
+        pass
 
 
 

@@ -1,4 +1,4 @@
-from logger import coil_logger
+#from logger import coil_logger
 import torch.nn as nn
 import torch
 import importlib
@@ -147,14 +147,14 @@ class CoILICRA_EI(nn.Module):
     def extract_branch(self, output_vec, branch_number):
 
         branch_number = command_number_to_index(branch_number)
-
+        
         if len(branch_number) > 1:
-            branch_number = torch.squeeze(branch_number.type(torch.cuda.LongTensor))
+            branch_number = torch.squeeze(branch_number.type(torch.LongTensor))
         else:
-            branch_number = branch_number.type(torch.cuda.LongTensor)
-
+            branch_number = branch_number.type(torch.LongTensor)
+        print(branch_number)
         branch_number = torch.stack([branch_number,
-                                     torch.cuda.LongTensor(range(0, len(branch_number)))])
+                                     torch.LongTensor(range(0, len(branch_number)))])
 
         return output_vec[branch_number[0], branch_number[1], :]
 

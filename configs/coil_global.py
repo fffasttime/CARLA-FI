@@ -11,7 +11,7 @@ import os
 import yaml
 
 from configs.namer import generate_name
-from logger.coil_logger import create_log, add_message
+#from logger.coil_logger import create_log, add_message
 
 
 

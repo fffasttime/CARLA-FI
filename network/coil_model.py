@@ -14,7 +14,6 @@ def CoILModel(architecture_name, architecture_configuration):
         the actual use of this function that is making classes
     """
     # TODO: this could be extended to some more arbitrary definition
-
     if architecture_name == 'coil-icra':
         return CoILICRA(architecture_configuration)
     elif architecture_name == 'coil-icra-ei':
