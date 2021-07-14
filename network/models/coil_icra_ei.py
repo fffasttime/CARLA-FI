@@ -104,9 +104,10 @@ class CoILICRA_EI(nn.Module):
                     nn.init.constant_(m.bias, 0.1)
 
 
-    def forward(self, x, a):
+    def forward(self, x, a, is_perception=False):
         """ ###### APPLY THE PERCEPTION MODULE """
-        x, inter = self.perception(x)
+        if not is_perception:
+            x, inter = self.perception(x)
         ## Not a variable, just to store intermediate layers for future vizualization
         #self.intermediate_layers = inter
 
@@ -122,7 +123,7 @@ class CoILICRA_EI(nn.Module):
         # We concatenate speed with the rest.
         return branch_outputs + [speed_branch_output]
 
-    def forward_branch(self, x, a, branch_number):
+    def forward_branch(self, x, a, branch_number, is_perception=False):
         """
         DO a forward operation and return a single branch.
 
@@ -137,7 +138,7 @@ class CoILICRA_EI(nn.Module):
         """
         # Convert to integer just in case .
         # TODO: take four branches, this is hardcoded
-        output_vec = torch.stack(self.forward(x, a)[0:4])
+        output_vec = torch.stack(self.forward(x, a, is_perception)[0:4])
 
         return self.extract_branch(output_vec, branch_number)
 
@@ -152,7 +153,7 @@ class CoILICRA_EI(nn.Module):
             branch_number = torch.squeeze(branch_number.type(torch.LongTensor))
         else:
             branch_number = branch_number.type(torch.LongTensor)
-        print(branch_number)
+
         branch_number = torch.stack([branch_number,
                                      torch.LongTensor(range(0, len(branch_number)))])
 

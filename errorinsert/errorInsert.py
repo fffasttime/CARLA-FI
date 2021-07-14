@@ -32,7 +32,8 @@ def insertError(input):
     input_copy = input.clone()
     if model_type == int:
         max_value=max(input.abs().max(),1e-5)
-        input_copy=round_pass((input_copy/max_value)*128)
+        input_copy *= 128/max_value
+        input_copy.round_()
 
     if g_conf.EI_CONV_OUT>0:
         rawErrorList = generateInsertList(input_copy, g_conf.EI_CONV_OUT)
@@ -40,7 +41,7 @@ def insertError(input):
             input_copy.view(-1)[j] = insert_fault(input_copy.view(-1)[j].item())
 
     if model_type == int:
-        input_copy = input_copy/128*max_value
+        input_copy *= max_value/128
 
     return input_copy
 
@@ -49,15 +50,16 @@ def insertError_fc(input):
 
     if model_type == int:
         max_value=max(input.abs().max(),1e-5)
-        input_copy=round_pass((input_copy/max_value)*128)
+        input_copy *= 128/max_value
+        input_copy.round_()
 
     if g_conf.EI_FC_OUT>0:
-        rawErrorList = generateInsertList(input_copy, g_conf.EI_CONV_OUT)
+        rawErrorList = generateInsertList(input_copy, g_conf.EI_FC_OUT)
         for j in rawErrorList:
             input_copy.view(-1)[j] = insert_fault(input_copy.view(-1)[j].item())
     
     if model_type == int:
-        input_copy = input_copy/128*max_value
+        input_copy *= max_value/128
 
     return input_copy
 
@@ -98,8 +100,12 @@ def insert_fault(data):
     # int8
     if model_type==int:
         assert -128<=int(data)<=128
-        errorbit=np.random.randint(0, 8)
-        return reverse_bit(data, errorbit)
+        #errorbit=np.random.randint(0, 8)
+        errorbit=7
+        try:
+            return reverse_bit(data, errorbit)
+        except Exception:
+            return data
 
     # float32
     errorbit=np.random.randint(0,32)
