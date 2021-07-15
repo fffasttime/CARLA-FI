@@ -8,7 +8,7 @@ import scipy.stats
 import numpy as np
 
 # float / int quantum
-model_type = int
+model_type = float
 
 lib=CDLL('errorinsert/err.so')
 insert_float=lib.insert_float
@@ -72,8 +72,8 @@ class Conv2dEI(nn.Conv2d):
     def forward(self, x):
         #x_ei=x
         x_ei = insertError(x)
-        #w_ei = self.weight
-        w_ei = insertError(self.weight)
+        w_ei = self.weight
+        #w_ei = insertError(self.weight)
         return F.conv2d(x_ei, w_ei, None, self.stride,
                         self.padding, self.dilation, self.groups)
 
@@ -84,8 +84,8 @@ class LinearEI(nn.Linear):
     def forward(self, x):
         #x_ei = x
         x_ei = insertError_fc(x)
-        #w_ei = self.weight
-        w_ei = insertError_fc(self.weight)
+        w_ei = self.weight
+        #w_ei = insertError_fc(self.weight)
         return F.linear(x_ei, w_ei, self.bias)
 
 def reverse_bit(value, bit_position):

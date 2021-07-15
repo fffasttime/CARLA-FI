@@ -7,7 +7,7 @@ import json
 import os
 import re
 
-folder_name = '_benchmarks_results'
+folder_name = '_benchmarks_results_full'
 
 dict_measurements ={'exp_id': -1,
                     'rep': -1,
