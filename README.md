@@ -1,4 +1,38 @@
-COiLTRAiNE: Conditional Imitation Learning Training Framework
+
+# CARLA-FI
+
+This repo is used to explore the hardware error robustness of deep learning systems in the field of autonomous driving.
+
+Paper(Arxiv): [Deep Learning Accelerator in Loop Reliability Evaluation for Autonomous Driving](https://arxiv.org/abs/2306.11759)
+
+### Overview
+
+![overview](docs/Platform.png)
+
+The target model is based on [COiLTRAiNE: Conditional Imitation Learning Training Framework](#coiltraine-conditional-imitation-learning-training-framework).
+
+CARLA contains several indicators such as mission success rate, 
+which are used to test the effectiveness of the autopilot system. 
+Therefore, we can directly use these indicators to measure the impact of error injection on the autopilot system.
+
+### Result
+
+![metric1](docs/metric1.png) ![metric2](docs/metric2.png)
+
+### Referece
+
+```
+@misc{huang2023deep,
+      title={Deep Learning Accelerator in Loop Reliability Evaluation for Autonomous Driving}, 
+      author={Haitong Huang and Cheng Liu},
+      year={2023},
+      eprint={2306.11759},
+      archivePrefix={arXiv},
+      primaryClass={cs.AI}
+}
+```
+
+## COiLTRAiNE: Conditional Imitation Learning Training Framework
 -------------------------------------------------------------
 
 This repository can be used to easily train and manage the trainings of imitation
